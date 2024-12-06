@@ -18,16 +18,20 @@ import UnauthPage from "./pages/unauth-page";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect } from "react";
 import { checkAuth } from "./store/auth-slice";
+import { Skeleton } from "@/components/ui/skeleton";
 
 function App() {
-  const { user, isAuthenticated, isLoading } = useSelector((state) => state.auth);
+  const { user, isAuthenticated, isLoading } = useSelector(
+    (state) => state.auth
+  );
   const dispatch = useDispatch();
 
   useEffect(() => {
     dispatch(checkAuth());
   }, [dispatch]);
 
-  if(isLoading) return <div>Loading......</div>
+  if (isLoading)
+    return <Skeleton className="w-[600px] h-[600px] bg-blend-darken" />;
 
   return (
     <div className="flex flex-col overflow-hidden bg-white">

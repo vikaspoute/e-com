@@ -40,24 +40,26 @@ const CommonForm = ({
           />
         );
         break;
+
       case "select":
         element = (
           <Select
-            value={value}
-            onValueChange={(value) =>
+            onValueChange={(value) => {
               setFormData({
                 ...formData,
                 [getControllerItem.name]: value,
-              })
-            }
+              });
+              console.log(value);
+            }}
+            value={value}
           >
             <SelectTrigger className="w-full">
-              <SelectValue placeholder={getControllerItem.placeholder} />
+              <SelectValue placeholder={getControllerItem.label} />
             </SelectTrigger>
             <SelectContent>
               {getControllerItem.options && getControllerItem.options.length > 0
-                ? getControllerItem.map((optionItem) => (
-                    <SelectItem key={optionItem.id} value={optionItem.id}>
+                ? getControllerItem.options.map((optionItem) => (
+                    <SelectItem key={optionItem.id} value={optionItem.label}>
                       {optionItem.label}
                     </SelectItem>
                   ))
