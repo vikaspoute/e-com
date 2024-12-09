@@ -13,6 +13,7 @@ const ProductImageUpload = ({
   setImageUrl,
   imageLoadingState,
   setImageLoadingState,
+  isEditMode,
 }) => {
   const inputRef = useRef(null);
   function handelImageFileChange(event) {
@@ -70,11 +71,14 @@ const ProductImageUpload = ({
           className="hidden"
           onChange={handelImageFileChange}
           ref={inputRef}
+          disabled={isEditMode}
         />
         {!imageFile ? (
           <Label
             htmlFor="image-upload"
-            className="flex flex-col justify-center items-center h-32 cursor-pointer"
+            className={` ${
+              isEditMode ? "cursor-not-allowed" : ""
+            } flex flex-col justify-center items-center h-32 cursor-pointer`}
           >
             <UploadCloudIcon className="h-10 w-10 text-muted-foreground mb-2" />
             <span>Drag & drop or click to upload image</span>

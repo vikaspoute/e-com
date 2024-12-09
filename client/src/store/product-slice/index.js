@@ -147,12 +147,12 @@ const adminProductSlice = createSlice({
       .addCase(updateProduct.fulfilled, (state, action) => {
         state.loading = false;
         const index = state.products.findIndex(
-          (p) => p._id === action.payload.product._id
+          (p) => p._id === action.payload.data._id
         );
         if (index !== -1) {
-          state.products[index] = action.payload.product;
+          state.products[index] = action.payload.data;
         }
-        state.currentProduct = action.payload.product;
+        state.currentProduct = action.payload.data;
       })
       .addCase(updateProduct.rejected, (state, action) => {
         state.loading = false;

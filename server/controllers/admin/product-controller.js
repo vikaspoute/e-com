@@ -178,24 +178,32 @@ const updateProduct = async (req, res) => {
   try {
     const { id } = req.params;
 
-    // Validate MongoDB ID
-    if (!mongoose.Types.ObjectId.isValid(id)) {
+    // More robust ID validation
+    if (!id || !mongoose.Types.ObjectId.isValid(id)) {
       return res.status(400).json({
         message: "Invalid product ID",
         success: false,
       });
     }
 
-    const {
-      image,
-      title,
-      description,
-      category,
-      brand,
-      price,
-      sellPrice,
-      totalStock,
-    } = req.body;
+    const updateData = req.body;
+    console.log('Product ID:', id);
+    console.log('Request Body:', req.body);
+
+    // Validate price and stock are positive
+    if (updateData.price && updateData.price <= 0) {
+      return res.status(400).json({
+        message: "Price must be a positive number",
+        success: false,
+      });
+    }
+
+    if (updateData.totalStock && updateData.totalStock < 0) {
+      return res.status(400).json({
+        message: "Stock cannot be negative",
+        success: false,
+      });
+    }
 
     const findProduct = await Product.findById(id);
     if (!findProduct) {
@@ -205,20 +213,16 @@ const updateProduct = async (req, res) => {
       });
     }
 
-    findProduct.title = title || findProduct.title;
-    findProduct.description = description || findProduct.description;
-    findProduct.category = category || findProduct.category;
-    findProduct.brand = brand || findProduct.brand;
-    findProduct.price = price || findProduct.price;
-    findProduct.sellPrice = sellPrice || findProduct.sellPrice;
-    findProduct.totalStock = totalStock || findProduct.totalStock;
-    findProduct.image = image || findProduct.image;
-
-    const updatedProduct = await findProduct.save();
+    // Use mongoose's built-in update method for cleaner updates
+    const updatedProduct = await Product.findByIdAndUpdate(
+      id,
+      { $set: updateData },
+      { new: true, runValidators: true }
+    );
 
     if (!updatedProduct) {
-      return res.status(404).json({
-        message: "Product not found",
+      return res.status(500).json({
+        message: "Failed to update product",
         success: false,
       });
     }
@@ -237,7 +241,6 @@ const updateProduct = async (req, res) => {
     });
   }
 };
-
 // Delete Product
 const deleteProduct = async (req, res) => {
   try {
