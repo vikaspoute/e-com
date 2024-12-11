@@ -59,18 +59,11 @@ export const addProductFormElements = [
     label: "Category",
     componentType: "select",
     options: [
-      { id: 1, label: "Electronics" },
-      { id: 2, label: "Fashion" },
-      { id: 3, label: "Home & Furniture" },
-      { id: 4, label: "Books" },
-      { id: 5, label: "Sports" },
-      { id: 6, label: "Toys" },
-      { id: 7, label: "Groceries" },
-      { id: 8, label: "Beauty & Health" },
-      { id: 9, label: "Automotive" },
-      { id: 10, label: "Stationery" },
-      { id: 11, label: "Jewelry" },
-      { id: 12, label: "Appliances" },
+      { id: "men", label: "Men" },
+      { id: "women", label: "Women" },
+      { id: "kids", label: "Kids" },
+      { id: "accessories", label: "Accessories" },
+      { id: "footwear", label: "Footwear" },
     ],
   },
   {
@@ -78,20 +71,20 @@ export const addProductFormElements = [
     label: "Brand",
     componentType: "select",
     options: [
-      { id: 1, label: "Apple" },
-      { id: 2, label: "Samsung" },
-      { id: 3, label: "Nike" },
-      { id: 4, label: "Adidas" },
-      { id: 5, label: "Sony" },
-      { id: 6, label: "LG" },
-      { id: 7, label: "Puma" },
-      { id: 8, label: "Levi's" },
-      { id: 9, label: "Dell" },
-      { id: 10, label: "HP" },
-      { id: 11, label: "Asus" },
-      { id: 12, label: "Lenovo" },
-      { id: 13, label: "Unilever" },
-      { id: 14, label: "Philips" },
+      { id: "apple", label: "Apple" },
+      { id: "samsung", label: "Samsung" },
+      { id: "nike", label: "Nike" },
+      { id: "adidas", label: "Adidas" },
+      { id: "sony", label: "Sony" },
+      { id: "lg", label: "LG" },
+      { id: "puma", label: "Puma" },
+      { id: "levis", label: "Levi's" },
+      { id: "dell", label: "Dell" },
+      { id: "hp", label: "HP" },
+      { id: "asus", label: "Asus" },
+      { id: "lenovo", label: "Lenovo" },
+      { id: "unilever", label: "Unilever" },
+      { id: "philips", label: "Philips" },
     ],
   },
   {
@@ -114,5 +107,83 @@ export const addProductFormElements = [
     placeholder: "Enter total stock",
     componentType: "input",
     type: "number",
+  },
+];
+
+export const shoppingViewHeaderMenuItems = [
+  {
+    id: "home",
+    label: "Home",
+    path: "/shop/home",
+  },
+  {
+    id: "men",
+    label: "Men",
+    path: "/shop/listing",
+  },
+  {
+    id: "women",
+    label: "Women",
+    path: "/shop/listing",
+  },
+  {
+    id: "kids",
+    label: "Kids",
+    path: "/shop/listing",
+  },
+  {
+    id: "footwear",
+    label: "Footwear",
+    path: "/shop/listing",
+  },
+  {
+    id: "accessories",
+    label: "Accessories",
+    path: "/shop/listing",
+  },
+];
+
+export const filterOptions = {
+  category: [
+    { id: "men", label: "Men" },
+    { id: "women", label: "Women" },
+    { id: "kids", label: "Kids" },
+    { id: "accessories", label: "Accessories" },
+    { id: "footwear", label: "Footwear" },
+  ],
+  brand: [
+    { id: "apple", label: "Apple" },
+    { id: "samsung", label: "Samsung" },
+    { id: "nike", label: "Nike" },
+    { id: "adidas", label: "Adidas" },
+    { id: "sony", label: "Sony" },
+    { id: "lg", label: "LG" },
+    { id: "puma", label: "Puma" },
+    { id: "levis", label: "Levi's" },
+    { id: "dell", label: "Dell" },
+    { id: "hp", label: "HP" },
+    { id: "asus", label: "Asus" },
+    { id: "lenovo", label: "Lenovo" },
+    { id: "unilever", label: "Unilever" },
+    { id: "philips", label: "Philips" },
+  ],
+};
+
+export const sortOptions = [
+  {
+    id: "price-lowtohigh",
+    label: "Price: Low to High",
+  },
+  {
+    id: "price-hightolow",
+    label: "Price: High to Low",
+  },
+  {
+    id: "title-atoz",
+    label: "Title: A to Z",
+  },
+  {
+    id: "title-ztoa",
+    label: "Title: Z to A",
   },
 ];

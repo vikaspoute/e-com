@@ -5,6 +5,7 @@ const cors = require("cors");
 require("dotenv").config();
 const authRoutes = require("./routes/auth/auth-routes");
 const productRoute = require("./routes/admin/product-routes");
+const shopRoute = require("./routes/shop/product-routes");
 
 const app = express();
 
@@ -29,6 +30,7 @@ mongoose
 // Routes
 app.use("/api/auth", authRoutes);
 app.use("/api/admin/products", productRoute);
+app.use("/api/shop/products", shopRoute);
 
 // Error handling middleware
 app.use((err, req, res, next) => {
