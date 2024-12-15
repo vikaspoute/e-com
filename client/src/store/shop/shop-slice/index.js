@@ -3,31 +3,36 @@ import axios from "axios";
 
 const initialState = {
   products: [],
-  currentProduct: null,
+  product: null,
   loading: false,
-  error: null,
-  pagination: {
-    totalProducts: 0,
-    totalPages: 0,
-    currentPage: 1,
-  },
 };
 
 export const fetchAllFilteredProducts = createAsyncThunk(
   "products/fetchAllFilteredProducts",
-  async (
-    { page = 0, limit = 10, category = "", brand = "", sortBy = "" },
-    { rejectWithValue }
-  ) => {
+  async ({ filterParams, sortParams }, { rejectWithValue }) => {
     try {
-      const response = await axios.post(
-        "http://localhost:5000/api/shop/products/get",
-        {
-          params: { page, limit, category, brand, sortBy },
-        },
-        {
-          headers: { "Content-Type": "application/json" },
-        }
+      const query = new URLSearchParams({
+        ...filterParams,
+        sortBy: sortParams,
+      });
+      const response = await axios.get(
+        `http://localhost:5000/api/shop/products/get?${query}`
+      );
+      return response.data;
+    } catch (error) {
+      return rejectWithValue(
+        error.response?.data || "Failed to fetch products"
+      );
+    }
+  }
+);
+
+export const fetchProductDetails = createAsyncThunk(
+  "products/fetchProductDetails",
+  async (id, { rejectWithValue }) => {
+    try {
+      const response = await axios.get(
+        `http://localhost:5000/api/shop/products/get/${id}`
       );
       return response.data;
     } catch (error) {
@@ -68,6 +73,21 @@ const shoppingProductSlice = createSlice({
         state.loading = false;
         state.error = action.payload;
         state.products = [];
+      })
+
+      // Fetch Product details
+      .addCase(fetchProductDetails.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(fetchProductDetails.fulfilled, (state, action) => {
+        state.loading = false;
+        state.product = action.payload.data;
+      })
+      .addCase(fetchProductDetails.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload;
+        state.product = null;
       });
   },
 });

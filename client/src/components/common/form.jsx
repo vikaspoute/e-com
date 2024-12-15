@@ -35,7 +35,7 @@ const CommonForm = ({
             onChange={(event) =>
               setFormData({
                 ...formData,
-                [getControllerItem.name]: event.target.value.trim(),
+                [getControllerItem.name]: event.target.value,
               })
             }
           />
@@ -80,7 +80,7 @@ const CommonForm = ({
             onChange={(event) =>
               setFormData({
                 ...formData,
-                [getControllerItem.name]: event.target.value.trim(),
+                [getControllerItem.name]: event.target.value,
               })
             }
           />
@@ -119,7 +119,7 @@ const CommonForm = ({
           </div>
         ))}
       </div>
-      <Button type="submit" className="mt-4 w-full" disabled={isButtonDisabled}>
+      <Button type="submit" className="mt-4 w-full">
         {buttonText || "Submit"}
       </Button>
     </form>

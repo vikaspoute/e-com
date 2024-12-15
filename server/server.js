@@ -6,6 +6,7 @@ require("dotenv").config();
 const authRoutes = require("./routes/auth/auth-routes");
 const productRoute = require("./routes/admin/product-routes");
 const shopRoute = require("./routes/shop/product-routes");
+const cartRoute = require("./routes/shop/cart-routes");
 
 const app = express();
 
@@ -31,6 +32,7 @@ mongoose
 app.use("/api/auth", authRoutes);
 app.use("/api/admin/products", productRoute);
 app.use("/api/shop/products", shopRoute);
+app.use("/api/shop/cart", cartRoute);
 
 // Error handling middleware
 app.use((err, req, res, next) => {

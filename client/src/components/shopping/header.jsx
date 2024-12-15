@@ -1,7 +1,8 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Sheet, SheetContent, SheetTrigger } from "../ui/sheet";
 import { Button } from "../ui/button";
+import { Badge } from "../ui/badge"; // Assuming you have a Badge component
 import { HousePlug, LogOut, Menu, ShoppingCart, UserCog } from "lucide-react";
 import { useDispatch, useSelector } from "react-redux";
 import { shoppingViewHeaderMenuItems } from "@/config";
@@ -15,6 +16,8 @@ import {
 } from "../ui/dropdown-menu";
 import { Avatar, AvatarFallback } from "../ui/avatar";
 import { logoutUser } from "@/store/auth-slice";
+import UserCartWrapper from "./cart-wrapper";
+import { getCart } from "@/store/shop/cart-slice";
 
 function MenuItems() {
   return (
@@ -34,19 +37,45 @@ function MenuItems() {
 
 function HeaderRightContent() {
   const { user } = useSelector((state) => state.auth);
+  const { cart } = useSelector((state) => state.shopCart);
+  const [openCart, setOpenCart] = useState(false);
   const navigate = useNavigate();
   const dispatch = useDispatch();
+
+  // Calculate total number of items in the cart
+  const totalCartItems =
+    cart?.items?.reduce((total, item) => total + item.quantity, 0) || 0;
 
   function handleLogout() {
     dispatch(logoutUser());
   }
 
+  useEffect(() => {
+    dispatch(getCart(user._id));
+  }, [dispatch, user._id]);
+
   return (
     <div className="flex lg:items-center lg:flex-row flex-col gap-4">
-      <Button variant="outline" size="icon">
-        <ShoppingCart className="h-6 w-6" />
-        <span className="sr-only">User cart</span>
-      </Button>
+      <Sheet open={openCart} onOpenChange={setOpenCart}>
+        <Button
+          onClick={() => setOpenCart(true)}
+          variant="outline"
+          size="icon"
+          className="relative"
+        >
+          <ShoppingCart className="h-6 w-6" />
+          {totalCartItems > 0 && (
+            <Badge
+              variant="destructive"
+              className="absolute -top-2 -right-2 px-1.5 py-0.5 text-xs"
+            >
+              {totalCartItems}
+            </Badge>
+          )}
+          <span className="sr-only">User cart</span>
+        </Button>
+        <UserCartWrapper cart={cart} />
+      </Sheet>
       <DropdownMenu>
         <DropdownMenuTrigger asChild className="cursor-pointer">
           <Avatar className="bg-black">
@@ -56,7 +85,7 @@ function HeaderRightContent() {
           </Avatar>
         </DropdownMenuTrigger>
         <DropdownMenuContent className="w-56" side="right">
-          <DropdownMenuLabel>Logged is as {user?.username}</DropdownMenuLabel>
+          <DropdownMenuLabel>Logged in as {user?.username}</DropdownMenuLabel>
           <DropdownMenuSeparator />
           <DropdownMenuItem onClick={() => navigate("/shop/account")}>
             <UserCog className="mr-2 h-10 w-10" />
@@ -98,7 +127,7 @@ const ShoppingHeader = () => {
           <MenuItems />
         </div>
         <div className="hidden lg:block">
-          <HeaderRightContent  />
+          <HeaderRightContent />
         </div>
       </div>
     </header>

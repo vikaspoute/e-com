@@ -101,6 +101,9 @@ const adminProductSlice = createSlice({
     clearError: (state) => {
       state.error = null;
     },
+    setCurrentProduct: (state) => {
+      state.currentProduct = null;
+    },
   },
   extraReducers: (builder) => {
     // Create Product
@@ -177,6 +180,6 @@ const adminProductSlice = createSlice({
   },
 });
 
-export const { clearError, clearCurrentProduct } = adminProductSlice.actions;
+export const { clearError, setCurrentProduct } = adminProductSlice.actions;
 
 export default adminProductSlice.reducer;
